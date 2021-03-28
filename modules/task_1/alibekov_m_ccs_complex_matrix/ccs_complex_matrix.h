@@ -39,6 +39,7 @@ ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col);
 
 ccs_complex_matrix transpose(const ccs_complex_matrix &A);
 ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
+ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex=true);
 void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex=true);

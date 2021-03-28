@@ -118,6 +118,68 @@ ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_com
     return C;
 };
 
+ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B)
+{
+    ccs_complex_matrix AT = transpose(A);
+    if (A.N != B.N) 
+    {
+        throw -1;
+    };
+    
+    int N = A.N;
+    
+    std::vector<int> rows;
+    std::vector<std::complex<double> > values;
+    std::vector<int> col_indexes;
+
+    col_indexes.push_back(0);
+    int count_NZ = 0;
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            std::complex<double> sum = {0, 0};
+
+
+            // like merging 2 sorted arrays
+            int a_idx = AT.col_indexes[j];
+            int b_idx = B.col_indexes[i];
+            while ((a_idx < AT.col_indexes[j + 1]) && (b_idx < B.col_indexes[i + 1]))
+            {
+                if (AT.rows[a_idx] < B.rows[b_idx])
+                    a_idx++;
+                else
+                    if (AT.rows[a_idx] > B.rows[b_idx])
+                        b_idx++;
+                    else
+                        sum += AT.values[a_idx++] * B.values[b_idx++];
+            }
+
+
+
+
+            if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
+                rows.push_back(j);
+                values.push_back(sum);
+                count_NZ++;
+            }
+        }
+        col_indexes.push_back(count_NZ);
+    }
+    
+    ccs_complex_matrix C(N, count_NZ);
+    
+    for (int j = 0; j < count_NZ; j++) {
+        C.rows[j] = rows[j];
+        C.values[j] = values[j];
+    }
+    
+    for(int i = 0; i < N + 1; i++)
+        C.col_indexes[i] = col_indexes[i];
+        
+    return C;
+};
+
 ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col)
 {
     if ((N <= 0) || (count_in_col <= 0))
