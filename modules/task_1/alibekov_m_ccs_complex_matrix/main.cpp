@@ -28,13 +28,12 @@ int main() {
     tmp.col_indexes[3] = 4;
     tmp.col_indexes[4] = 6;
     
-    PrintCCSMatrix(tmp);
-    PrintDensificationOfCCSMatrix(tmp);
-    PrintDensificationOfCCSMatrix(transpose(tmp));
-    // PrintMatrixT(4, 6, tmp);
-    PrintDensificationOfCCSMatrix(naive_multiplicate(tmp, transpose(tmp)));
+    PrintCCSMatrix(tmp, false);
+    PrintDensificationOfCCSMatrix(tmp, false);
+    PrintDensificationOfCCSMatrix(transpose(tmp), false);
+    PrintDensificationOfCCSMatrix(naive_multiplicate(tmp, transpose(tmp)), false);
     
-    PrintDensificationOfCCSMatrix(generate_regular_ccs(10758, 7, 1), true);
+    PrintDensificationOfCCSMatrix(generate_regular_ccs(10758, 7, 1));
     
     return 0;
 }
