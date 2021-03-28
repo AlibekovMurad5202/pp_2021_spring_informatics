@@ -4,9 +4,10 @@
 
 ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
     if ((N <= 0) || (count_in_col <= 0))
-        throw -1;
+        throw - 1;
 
-    std::mt19937 gen(static_cast<unsigned int>(seed));
+    std::mt19937 gen;
+    gen.seed(static_cast<unsigned int>(seed));
 
     ccs_complex_matrix random_matrix(N, count_in_col * N);
 
@@ -14,12 +15,12 @@ ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
         for (int j = i * count_in_col; j < (i + 1) * count_in_col; j++) {
             bool isFound = false;
             do {
-                random_matrix.rows[j] = static_cast<unsigned int>(gen() % N);
-                std::cout << " " << random_matrix.rows[j];
+                random_matrix.rows[j] = static_cast<unsigned int>(gen()) % N;
                 isFound = true;
-                for (int k = i * count_in_col; k < j; k++)
+                for (int k = i * count_in_col; k < j; k++) {
                     if (random_matrix.rows[j] == random_matrix.rows[k])
                         isFound = false;
+                    }
             } while (!isFound);
         }
 
