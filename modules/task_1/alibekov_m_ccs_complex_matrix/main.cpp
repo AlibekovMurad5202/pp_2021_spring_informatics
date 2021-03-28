@@ -6,8 +6,7 @@
 #include "./ccs_complex_matrix.h"
 
 int main() {
-    ccs_matrix tmp;
-    InitializeMatrix(4, 6, tmp);
+    ccs_matrix tmp(4, 6);
     
     tmp.values[0] = 9;
     tmp.values[1] = 3;
@@ -29,12 +28,13 @@ int main() {
     tmp.col_indexes[3] = 4;
     tmp.col_indexes[4] = 6;
     
-    
+    PrintCCSMatrix(tmp);
     PrintDensificationOfCCSMatrix(tmp);
     PrintDensificationOfCCSMatrix(transpose(tmp));
     // PrintMatrixT(4, 6, tmp);
     PrintDensificationOfCCSMatrix(naive_multiplicate(tmp, transpose(tmp)));
     
+    PrintDensificationOfCCSMatrix(generate_regular_ccs(10758, 7, 1), true);
     
     return 0;
 }
