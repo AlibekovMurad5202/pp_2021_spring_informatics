@@ -5,6 +5,7 @@
 #include <vector>
 #include <complex>
 #include <iostream>
+#include <utility>
 
 const double ZERO_IN_CCS = 0.00001;
 
@@ -32,7 +33,7 @@ struct ccs_complex_matrix {
     friend bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 };
 
-ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col);
+ccs_complex_matrix generate_regular_ccs(int N, int count_in_col);
 
 ccs_complex_matrix transpose(const ccs_complex_matrix &A);
 ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
@@ -40,9 +41,6 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
 
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
 void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
-
-inline double next() { return (static_cast<double>(rand()) / RAND_MAX); }
-inline void swap_int(int *a, int *b) { int tmp = *a; *a = *b; *b = tmp; }
 
 bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 

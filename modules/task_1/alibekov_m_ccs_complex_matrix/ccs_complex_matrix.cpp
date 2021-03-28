@@ -3,7 +3,7 @@
 #include <cstdlib>  // srand
 #include "../../../modules/task_1/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
-ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
+ccs_complex_matrix generate_regular_ccs(int N, int count_in_col) {
     if ((N <= 0) || (count_in_col <= 0))
         throw -1;
 
@@ -29,7 +29,7 @@ ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
         for (int j = 0; j < count_in_col - 1; j++)
             for (int k = i * count_in_col; k < (i + 1) * count_in_col - 1 - j; k++)
                 if (random_matrix.rows[k] > random_matrix.rows[k + 1])
-                    swap_int(&random_matrix.rows[k], &random_matrix.rows[k + 1]);
+                    std::swap(random_matrix.rows[k], random_matrix.rows[k + 1]);
     }
 
     for (int i = 0; i < count_in_col * N; i++)
