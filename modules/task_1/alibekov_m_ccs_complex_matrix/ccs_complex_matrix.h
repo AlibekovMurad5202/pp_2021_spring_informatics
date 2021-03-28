@@ -7,7 +7,6 @@
 #include <iostream>
 
 const double ZERO_IN_CCS = 0.00001;
-const double MAX_VAL = 1000;
 
 struct ccs_complex_matrix {
     int N;       // size of matrix (N x N)
