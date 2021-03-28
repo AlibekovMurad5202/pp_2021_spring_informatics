@@ -7,7 +7,7 @@ void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex)
 {
     std::cout << "Matrix [" << &A << "] : \n\tvalues: [ ";
     for (int i = 0; i < A.NZ; i++)
-        std::cout << (isComplex ? A.values[i] : A.values[i].real()) << " ";
+        isComplex ? std::cout << A.values[i] << " " : std::cout << A.values[i].real() << " ";
     std::cout << "]\n\trows: [ ";
     for (int i = 0; i < A.NZ; i++)
         std::cout << A.rows[i] << " ";
@@ -29,7 +29,7 @@ void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex)
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             isComplex ? std::cout << dense_matrix[i][j] << " " :
-            std::cout << dense_matrix[i][j].real() << " ";
+                std::cout << dense_matrix[i][j].real() << " ";
         }
         std::cout << std::endl;
     }

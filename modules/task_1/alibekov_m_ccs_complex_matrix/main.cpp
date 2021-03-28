@@ -51,6 +51,29 @@ TEST(SPARSE_MATRICES, TEST_DOUBLE_TRANSPOSED_SPARSE_MATRIX) {
     EXPECT_EQ(sparse_matrix, transpose(transpose(sparse_matrix)));
 }
 
+TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
+    ccs_complex_matrix sparse_matrix(4, 6);
+    sparse_matrix.values = { 9, 3, 8, 15, 7, 16 };
+    sparse_matrix.rows = { 3, 0, 1, 3, 0, 3 };
+    sparse_matrix.col_indexes = { 0, 1, 2, 4, 6 };
+    
+    std::cout << "\tFirst type:\n";
+    PrintCCSMatrix(sparse_matrix);
+    std::cout << std::endl;
+    
+    std::cout << "\tSecond type:\n";
+    PrintCCSMatrix(sparse_matrix, false);
+    std::cout << std::endl;
+    
+    std::cout << "\tThird type:\n";
+    PrintDensificationOfCCSMatrix(sparse_matrix);
+    std::cout << std::endl;
+    
+    std::cout << "\tFourth type:\n";
+    PrintDensificationOfCCSMatrix(sparse_matrix, false);
+    std::cout << std::endl;
+}
+
 TEST(SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_GENERATING_BIG_SPARSE_MATRIX) {
     clock_t start_time = clock(); 
     EXPECT_NO_THROW(generate_regular_ccs(86538, 100000, 150));
