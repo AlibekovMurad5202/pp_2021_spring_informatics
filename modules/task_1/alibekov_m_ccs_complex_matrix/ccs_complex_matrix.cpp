@@ -3,6 +3,8 @@
 #include <cstdlib>  // srand
 #include "../../../modules/task_1/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
+static bool isSrandCalled = false;
+
 ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
     if ((N <= 0) || (count_in_col <= 0))
         throw -1;

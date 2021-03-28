@@ -9,8 +9,6 @@
 const double ZERO_IN_CCS = 0.00001;
 const double MAX_VAL = 1000;
 
-static bool isSrandCalled = false;
-
 struct ccs_complex_matrix {
     int N;       // size of matrix (N x N)
     int NZ;      // count of non-zero elements
