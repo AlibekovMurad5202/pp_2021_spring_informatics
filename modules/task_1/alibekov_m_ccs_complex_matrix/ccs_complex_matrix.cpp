@@ -2,13 +2,11 @@
 #include <random>
 #include "../../../modules/task_1/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
-ccs_complex_matrix generate_regular_ccs(int N, int count_in_col) {
+ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
     if ((N <= 0) || (count_in_col <= 0))
         throw -1;
 
-    std::random_device rd;
-    std::mt19937 mersenne(rd());
-    std::uniform_real_distribution<> rnd(-30, 30);
+    std::mt19937 gen(static_cast<unsigned int>(seed));
 
     ccs_complex_matrix random_matrix(N, count_in_col * N);
 
@@ -16,7 +14,8 @@ ccs_complex_matrix generate_regular_ccs(int N, int count_in_col) {
         for (int j = i * count_in_col; j < (i + 1) * count_in_col; j++) {
             bool isFound = false;
             do {
-                random_matrix.rows[j] = static_cast<int>(rnd(mersenne)) % N;
+                random_matrix.rows[j] = static_cast<unsigned int>(gen() % N);
+                std::cout << " " << random_matrix.rows[j];
                 isFound = true;
                 for (int k = i * count_in_col; k < j; k++)
                     if (random_matrix.rows[j] == random_matrix.rows[k])
@@ -30,6 +29,10 @@ ccs_complex_matrix generate_regular_ccs(int N, int count_in_col) {
                 if (random_matrix.rows[k] > random_matrix.rows[k + 1])
                     std::swap(random_matrix.rows[k], random_matrix.rows[k + 1]);
     }
+
+    std::random_device rd;
+    std::mt19937 mersenne(rd());
+    std::uniform_real_distribution<> rnd(-30, 30);
 
     for (int i = 0; i < count_in_col * N; i++)
         random_matrix.values[i] = { rnd(mersenne), rnd(mersenne) };
