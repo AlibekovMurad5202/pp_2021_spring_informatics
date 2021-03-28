@@ -3,7 +3,7 @@
 #include <cstdlib> //srand
 #include "../../../modules/task_1/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
-void PrintCCSMatrix(const ccs_matrix &A, bool isComplex)
+void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex)
 {
     std::cout << "Matrix [" << &A << "] : \n\tvalues: [ ";
     for (int i = 0; i < A.NZ; i++)
@@ -17,7 +17,7 @@ void PrintCCSMatrix(const ccs_matrix &A, bool isComplex)
     std::cout << "]\n";
 };
 
-void PrintDensificationOfCCSMatrix(const ccs_matrix &A, bool isComplex)
+void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex)
 {
     int N = A.N;
     std::vector<std::vector<std::complex<double> > > dense_matrix(N);
@@ -35,8 +35,8 @@ void PrintDensificationOfCCSMatrix(const ccs_matrix &A, bool isComplex)
     }
 };
 
-ccs_matrix transpose(const ccs_matrix &A) {
-    ccs_matrix AT(A.N, A.NZ);
+ccs_complex_matrix transpose(const ccs_complex_matrix &A) {
+    ccs_complex_matrix AT(A.N, A.NZ);
     
     for (int i = 0; i < A.NZ; i++)
         AT.col_indexes[A.rows[i] + 1]++;
@@ -66,12 +66,12 @@ ccs_matrix transpose(const ccs_matrix &A) {
     return AT;
 };
 
-ccs_matrix naive_multiplicate(const ccs_matrix &A, const ccs_matrix &B)
+ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B)
 {
-    ccs_matrix AT = transpose(A);
+    ccs_complex_matrix AT = transpose(A);
     if (A.N != B.N) 
     {
-        // ouch!
+        throw -1;
     };
     
     int N = A.N;
@@ -90,14 +90,14 @@ ccs_matrix naive_multiplicate(const ccs_matrix &A, const ccs_matrix &B)
             std::complex<double> sum = {0, 0};
             
             // dot_product
-            for (int k = AT.col_indexes[i]; k < AT.col_indexes[i + 1]; k++)
-                for (int l = B.col_indexes[j]; l < B.col_indexes[j + 1]; l++)
+            for (int k = AT.col_indexes[j]; k < AT.col_indexes[j + 1]; k++)
+                for (int l = B.col_indexes[i]; l < B.col_indexes[i + 1]; l++)
                     if (AT.rows[k] == B.rows[l])
                     {
                         sum += AT.values[k] * B.values[l];
                         break;
                     }
-            
+
             if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
                 rows.push_back(j);
                 rows_count++;
@@ -108,7 +108,7 @@ ccs_matrix naive_multiplicate(const ccs_matrix &A, const ccs_matrix &B)
         col_indexes.push_back(count_NZ + col_indexes[i]);
     }
     
-    ccs_matrix C(N, rows_count);
+    ccs_complex_matrix C(N, rows_count);
     for (int j = 0; j < rows.size(); j++) {
         C.rows[j] = rows[j];
         C.values[j] = values[j];
@@ -118,9 +118,12 @@ ccs_matrix naive_multiplicate(const ccs_matrix &A, const ccs_matrix &B)
     return C;
 };
 
-ccs_matrix generate_regular_ccs(int seed, int N, int count_in_col)
+ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col)
 {
-    ccs_matrix random_matrix(N, count_in_col * N);
+    if ((N <= 0) || (count_in_col <= 0))
+        throw -1;
+
+    ccs_complex_matrix random_matrix(N, count_in_col * N);
     if (!isSrandCalled)
     {
         srand(seed);
@@ -155,4 +158,9 @@ ccs_matrix generate_regular_ccs(int seed, int N, int count_in_col)
         random_matrix.col_indexes[i] = i * count_in_col;
 
     return random_matrix;
+};
+
+bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
+    return ((A.N == B.N) && (A.NZ == B.NZ) && (A.rows == B.rows)
+        && (A.values == B.values) && (A.col_indexes == B.col_indexes));
 };
