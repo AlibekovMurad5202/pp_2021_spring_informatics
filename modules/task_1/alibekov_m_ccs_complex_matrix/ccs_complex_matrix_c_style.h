@@ -1,47 +1,32 @@
 // Copyright 2021 Alibekov Murad
-#ifndef MODULES_TASK_1_ALIBEKOV_MURAD_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
-#define MODULES_TASK_1_ALIBEKOV_MURAD_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+
+/* Это не работающая версия кода, т.е. 
+ * по факту этот файл является лишь
+ * неким сборником обрывков кода для случая,
+ * если придётся по той или иной причине
+ * переделывать в C-style код
+ */
+
 
 #include <vector>
 #include <complex>
 #include <iostream>
+#include <cstring>
 
-struct ccs_matrix {
-    int N;       // size of matrix (N x N) // размер матрицы (N x N)
-    int NZ;      // count of non-zero elements // число ненулевых элементов
-    
-    // array of values (size = NZ): // массив значений (размера NZ):
-    std::vector<std::complex<double> > values;
-    
-    // array of rows' numbers: // массив номеров строк (размера NZ):
-    std::vector<int> rows;
-    
-    // array of rows' numbers: // массив индексов столбцов (размера N + 1):
-    std::vector<int> col_indexes;
-};
-
-// Генерирует квадратную матрицу в формате CCS (3 массива, индексация с нуля)
-// В каждом столбце cntInCol ненулевых элементов
-// void GenerateRegularCCS(int seed, int N, int cntInCol, ccs_matrix& mtx);
-
-// Генерирует квадратную матрицу в формате CCS (3 массива, индексация с нуля)
-// Число ненулевых элементов в столбцах растет от 1 до cntInCol. Закон роста - кубическая парабола
-// void GenerateSpecialCСS(int seed, int N, int cntInCol, ccs_matrix& mtx);
-
-void InitializeMatrix(int N, int NZ, ccs_matrix &mtx)
-{
-    mtx.N = N;
-    mtx.NZ = NZ;
-    mtx.values = std::vector<std::complex<double> >(NZ);
-    mtx.rows = std::vector<int>(NZ);
-    mtx.col_indexes = std::vector<int>(N + 1);
-};
 
 void PrintMatrixT(int N, int NZ, ccs_matrix &mtx)
 {
     for (int i = 0; i < N; i++) {
         for (int j = mtx.col_indexes[i]; j < mtx.col_indexes[i+1]; j++) {
             std::cout << mtx.values[j].real() << "[" << mtx.rows[j] << "," << i << "] ";
+            /*for (int k = 0; k < N; k++) {
+                if (mtx.rows[k] == k) {
+                    std::cout << mtx.values[j].real() << "[" << k << "," << j << "] ";
+                } else {
+                    std::cout << 0 << "[" << k << "," << j << "] ";
+                }
+                // std::cout << "[" << mtx.rows[j] << "," << j << "] ";
+            }*/
         }
         std::cout << std::endl;
     }
@@ -62,40 +47,6 @@ void PrintDensificationOfCCSMatrix(ccs_matrix &mtx)
         }
         std::cout << std::endl;
     }
-};
-
-ccs_matrix transpose(const ccs_matrix &A) {
-    ccs_matrix AT;
-    InitializeMatrix(A.N, A.NZ, AT);
-    
-    for (int i = 0; i < A.NZ; i++)
-        AT.col_indexes[A.rows[i] + 1]++;
-    
-    int S = 0;
-    for (int i = 1; i <= A.N; i++)
-    {
-        int tmp = AT.col_indexes[i];
-        AT.col_indexes[i] = S;
-        S = S + tmp;
-    }
-    
-    for (int i = 0; i < A.N; i++)
-    {
-        int j1 = A.col_indexes[i]; 
-        int j2 = A.col_indexes[i+1];
-        int AT_row = i; // Строка в AT - столбец в А
-        for (int j = j1; j < j2; j++)
-        {
-            std::complex<double> AT_V = A.values[j]; // Значение
-            int AT_col_index = A.rows[j]; // Столбец в AT - строка в A
-            int AT_j_index = AT.col_indexes[AT_col_index + 1];
-            AT.values[AT_j_index] = AT_V;
-            AT.rows[AT_j_index] = AT_row;
-            AT.col_indexes[AT_col_index + 1]++;
-        }
-    }
-    
-    return AT;
 };
 
 ccs_matrix naive_multiplicate(const ccs_matrix &A, const ccs_matrix &B)
@@ -155,5 +106,66 @@ ccs_matrix naive_multiplicate(const ccs_matrix &A, const ccs_matrix &B)
     //time = (double)(finish - start) / CLOCKS_PER_SEC;
     return C;
 };
+
+
+
+struct ccs_matrix {
+    int N;
+    int NZ;
+
+    std::complex<double>* values;
+    int* rows;
+    int* col_indexes;
+}
+
+void InitializeMatrix(int N, int NZ, ccs_matrix &mtx)
+{
+    mtx.N = N;
+    mtx.NZ = NZ;
+    mtx.values = new std::complex<double>[NZ];
+    mtx.rows = new int[NZ];
+    mtx.col_indexes = new int[N + 1];
+} 
+
+ccs_matrix transpose(const css_matrix &A) {
+    ccs_matrix AT;
+    InitializeMatrix(A.N, A.NZ, AT);
+    
+    memset(AT.col_indexes, 0, (N+1) * sizeof(int));
+    for (i = 0; i < A.NZ; i++)
+        AT.col_indexes[A.rows[i] + 1]++;
+    
+    int S = 0;
+    for (i = 1; i <= A.N; i++)
+    {
+        tmp = AT.col_indexes[i];
+        AT.col_indexes[i] = S;
+        S = S + tmp;
+    }
+    
+    for (i = 0; i < A.N; i++)
+    {
+        int j1 = A.col_indexes[i]; j2 = A.col_indexes[i+1];
+        AT_row = i; // Строка в AT - столбец в А
+        for (int j = j1; j < j2; j++)
+        {
+            std::complex<double> AT_V = A.values[j]; // Значение
+            int AT_col_index = A.rows[j]; // Столбец в AT
+            int AT_j_index = AT.col_indexes[AT_col_index + 1];
+            AT.values[AT_j_index] = AT_V;
+            AT.rows[AT_j_index] = AT_row;
+            AT.col_indexes[AT_col_index + 1]++;
+        }
+    }
+    
+    return AT;
+}
+
+void FreeMatrix(ccs_matrix &mtx)
+{
+ delete[] mtx.values;
+ delete[] mtx.rows;
+ delete[] mtx.col_indexes;
+}
 
 #endif  // MODULES_TASK_1_ALIBEKOV_MURAD_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
