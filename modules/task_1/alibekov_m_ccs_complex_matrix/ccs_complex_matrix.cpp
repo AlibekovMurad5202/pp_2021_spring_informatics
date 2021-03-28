@@ -17,7 +17,7 @@ ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
         for (int j = i * count_in_col; j < (i + 1) * count_in_col; j++) {
             bool isFound = false;
             do {
-                random_matrix.rows[j] = rand_r() % N;
+                random_matrix.rows[j] = rand() % N;
                 isFound = true;
                 for (int k = i * count_in_col; k < j; k++)
                     if (random_matrix.rows[j] == random_matrix.rows[k])
@@ -138,9 +138,9 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
             int a_idx = AT.col_indexes[j];
             int b_idx = B.col_indexes[i];
             while ((a_idx < AT.col_indexes[j + 1]) && (b_idx < B.col_indexes[i + 1])) {
-                if (AT.rows[a_idx] < B.rows[b_idx])
+                if (AT.rows[a_idx] < B.rows[b_idx]) {
                     a_idx++;
-                else {
+                } else {
                     if (AT.rows[a_idx] > B.rows[b_idx])
                         b_idx++;
                     else

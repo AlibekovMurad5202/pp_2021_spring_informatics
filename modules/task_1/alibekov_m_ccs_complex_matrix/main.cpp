@@ -75,7 +75,7 @@ TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
 }
 
 TEST(SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_GENERATING_BIG_SPARSE_MATRIX) {
-    clock_t start_time = clock(); 
+    clock_t start_time = clock();
     EXPECT_NO_THROW(generate_regular_ccs(86538, 100000, 150));
     clock_t finish_time = clock();
 
@@ -85,7 +85,7 @@ TEST(SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_GENERATING_BIG_SPARSE_MATRIX) {
 TEST(SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_TRANSPOSITION_BIG_SPARSE_MATRIX) {
     ccs_complex_matrix big_sparse_matrix = generate_regular_ccs(86538, 100000, 150);
 
-    clock_t start_time = clock(); 
+    clock_t start_time = clock();
     EXPECT_NO_THROW(transpose(big_sparse_matrix));
     clock_t finish_time = clock();
 
