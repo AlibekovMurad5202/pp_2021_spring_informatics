@@ -31,7 +31,7 @@ ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
                 if (random_matrix.rows[k] > random_matrix.rows[k + 1])
                     swap_int(&random_matrix.rows[k], &random_matrix.rows[k + 1]);
     }
-    
+
     for (int i = 0; i < count_in_col * N; i++)
         random_matrix.values[i] = { next() * MAX_VAL, next() * MAX_VAL };
 
@@ -39,7 +39,7 @@ ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
         random_matrix.col_indexes[i] = i * count_in_col;
 
     return random_matrix;
-};
+}
 
 ccs_complex_matrix transpose(const ccs_complex_matrix &A) {
     ccs_complex_matrix AT(A.N, A.NZ);
@@ -67,11 +67,11 @@ ccs_complex_matrix transpose(const ccs_complex_matrix &A) {
     }
 
     return AT;
-};
+}
 
 ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
     ccs_complex_matrix AT = transpose(A);
-    if (A.N != B.N) 
+    if (A.N != B.N)
         throw -1;
 
     int N = A.N;
@@ -115,11 +115,11 @@ ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_com
         C.col_indexes[i] = col_indexes[i];
 
     return C;
-};
+}
 
 ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
     ccs_complex_matrix AT = transpose(A);
-    if (A.N != B.N) 
+    if (A.N != B.N)
         throw -1;
 
     int N = A.N;
@@ -140,11 +140,12 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
             while ((a_idx < AT.col_indexes[j + 1]) && (b_idx < B.col_indexes[i + 1])) {
                 if (AT.rows[a_idx] < B.rows[b_idx])
                     a_idx++;
-                else
+                else {
                     if (AT.rows[a_idx] > B.rows[b_idx])
                         b_idx++;
                     else
                         sum += AT.values[a_idx++] * B.values[b_idx++];
+                }
             }
 
             if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
@@ -167,7 +168,7 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
         C.col_indexes[i] = col_indexes[i];
 
     return C;
-};
+}
 
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex) {
     std::cout << "Matrix [" << &A << "] : \n\tvalues: [ ";
@@ -180,7 +181,7 @@ void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex) {
     for (int i = 0; i < A.N + 1; i++)
         std::cout << A.col_indexes[i] << " ";
     std::cout << "]\n";
-};
+}
 
 void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex) {
     int N = A.N;
@@ -197,7 +198,7 @@ void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex) 
         }
         std::cout << std::endl;
     }
-};
+}
 
 bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
     return ((A.N == B.N) && (A.NZ == B.NZ) && (A.rows == B.rows)

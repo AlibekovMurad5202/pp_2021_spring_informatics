@@ -44,7 +44,7 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
 void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
 
-inline double next() { return (static_cast<double>(rand()) / RAND_MAX); }
+inline double next() { return (static_cast<double>(rand_r()) / RAND_MAX); }
 inline void swap_int(int *a, int *b) { int tmp = *a; *a = *b; *b = tmp; }
 
 bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B);

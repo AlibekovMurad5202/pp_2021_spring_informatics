@@ -101,12 +101,12 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, MULTIPLY_NUMBERS) {
     number_1.values = { 6 };
     number_1.rows = { 0 };
     number_1.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix number_2(1, 1);
     number_2.values = { 7 };
     number_2.rows = { 0 };
     number_2.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix result(1, 1);
     result.values = { 42 };
     result.rows = { 0 };
@@ -120,12 +120,12 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, MULTIPLY_COMPLEX_NUMBERS) {
     number_1.values = { {-1, 2} };
     number_1.rows = { 0 };
     number_1.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix number_2(1, 1);
     number_2.values = { {3, 4} };
     number_2.rows = { 0 };
     number_2.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix result(1, 1);
     result.values = { {-11, 2} };
     result.rows = { 0 };
@@ -139,12 +139,12 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, THROWS_WHEN_MULTIPLY_WITH_DIFFERENT_N) {
     sparse_matrix_1.values = { 9, 3, 8, 15, 7, 16 };
     sparse_matrix_1.rows = { 3, 0, 1, 3, 0, 3 };
     sparse_matrix_1.col_indexes = { 0, 1, 2, 4, 6 };
-    
+
     ccs_complex_matrix sparse_matrix_2(3, 3);
     sparse_matrix_2.values = { 1, 3, 7 };
     sparse_matrix_2.rows = { 2, 2, 1 };
     sparse_matrix_2.col_indexes = { 0, 1, 2, 3 };
-    
+
     ASSERT_ANY_THROW(naive_multiplicate(sparse_matrix_1, sparse_matrix_2));
 }
 
@@ -153,9 +153,9 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRIX_AND_ZERO_MATRIX) {
     sparse_matrix_1.values = { {7, 1}, {6, 4}, 2.978, {11.02, -0.9}, {-9.3, 0}, 16 };
     sparse_matrix_1.rows = { 3, 0, 1, 3, 0, 3 };
     sparse_matrix_1.col_indexes = { 0, 1, 2, 4, 6 };
-    
+
     ccs_complex_matrix sparse_matrix_2(4, 0);
-    
+
     ccs_complex_matrix result(4, 0);
 
     EXPECT_EQ(naive_multiplicate(sparse_matrix_1, sparse_matrix_2), result);
@@ -166,12 +166,12 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRICES) {
     sparse_matrix_1.values = { {-1, 1}, {0, 3}, 3, 0.7 };
     sparse_matrix_1.rows = { 2, 0, 2, 1 };
     sparse_matrix_1.col_indexes = { 0, 1, 3, 4 };
-    
+
     ccs_complex_matrix sparse_matrix_2(3, 3);
     sparse_matrix_2.values = { {0, -3}, {0, 1}, 4 };
     sparse_matrix_2.rows = { 1, 0, 2 };
     sparse_matrix_2.col_indexes = { 0, 0, 1, 3};
-    
+
     ccs_complex_matrix result(3, 4);
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
@@ -182,15 +182,15 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRICES) {
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
     ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
-    
+
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
-    
+
     clock_t start_time = clock();
     EXPECT_NO_THROW(naive_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
     clock_t finish_time = clock();
-    
-    printf("\tTime  = %f\n", (double)(finish_time - start_time) / CLOCKS_PER_SEC);
+
+    printf("\tTime  = %f\n", static_cast<double>(finish_time - start_time) / CLOCKS_PER_SEC);
 }
 
 /////////////////////////////////////////////
@@ -202,12 +202,12 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, MULTIPLY_NUMBERS) {
     number_1.values = { 6 };
     number_1.rows = { 0 };
     number_1.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix number_2(1, 1);
     number_2.values = { 7 };
     number_2.rows = { 0 };
     number_2.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix result(1, 1);
     result.values = { 42 };
     result.rows = { 0 };
@@ -221,12 +221,12 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, MULTIPLY_COMPLEX_NUMBERS) {
     number_1.values = { {-1, 2} };
     number_1.rows = { 0 };
     number_1.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix number_2(1, 1);
     number_2.values = { {3, 4} };
     number_2.rows = { 0 };
     number_2.col_indexes = { 0, 1 };
-    
+
     ccs_complex_matrix result(1, 1);
     result.values = { {-11, 2} };
     result.rows = { 0 };
@@ -240,12 +240,12 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, THROWS_WHEN_MULTIPLY_WITH_DIFFERENT_N) {
     sparse_matrix_1.values = { 9, 3, 8, 15, 7, 16 };
     sparse_matrix_1.rows = { 3, 0, 1, 3, 0, 3 };
     sparse_matrix_1.col_indexes = { 0, 1, 2, 4, 6 };
-    
+
     ccs_complex_matrix sparse_matrix_2(3, 3);
     sparse_matrix_2.values = { 1, 3, 7 };
     sparse_matrix_2.rows = { 2, 2, 1 };
     sparse_matrix_2.col_indexes = { 0, 1, 2, 3 };
-    
+
     ASSERT_ANY_THROW(optim_multiplicate(sparse_matrix_1, sparse_matrix_2));
 }
 
@@ -254,9 +254,9 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRIX_AND_ZERO_MATRIX) {
     sparse_matrix_1.values = { {7, 1}, {6, 4}, 2.978, {11.02, -0.9}, {-9.3, 0}, 16 };
     sparse_matrix_1.rows = { 3, 0, 1, 3, 0, 3 };
     sparse_matrix_1.col_indexes = { 0, 1, 2, 4, 6 };
-    
+
     ccs_complex_matrix sparse_matrix_2(4, 0);
-    
+
     ccs_complex_matrix result(4, 0);
 
     EXPECT_EQ(optim_multiplicate(sparse_matrix_1, sparse_matrix_2), result);
@@ -267,32 +267,32 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRICES) {
     sparse_matrix_1.values = { {-1, 1}, {0, 3}, 3, 0.7 };
     sparse_matrix_1.rows = { 2, 0, 2, 1 };
     sparse_matrix_1.col_indexes = { 0, 1, 3, 4 };
-    
+
     ccs_complex_matrix sparse_matrix_2(3, 3);
     sparse_matrix_2.values = { {0, -3}, {0, 1}, 4 };
     sparse_matrix_2.rows = { 1, 0, 2 };
     sparse_matrix_2.col_indexes = { 0, 0, 1, 3};
-    
+
     ccs_complex_matrix result(3, 4);
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-    
+
     EXPECT_EQ(optim_multiplicate(sparse_matrix_1, sparse_matrix_2), result);
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
     ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
-    
+
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
-    
+
     clock_t start_time = clock();
     EXPECT_NO_THROW(optim_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
     clock_t finish_time = clock();
-    
-    printf("\tTime  = %f\n", (double)(finish_time - start_time) / CLOCKS_PER_SEC);
+
+    printf("\tTime  = %f\n", static_cast<double>(finish_time - start_time) / CLOCKS_PER_SEC);
 }
 
 int main(int argc, char **argv) {
