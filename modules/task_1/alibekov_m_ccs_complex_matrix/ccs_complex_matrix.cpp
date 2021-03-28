@@ -106,12 +106,12 @@ ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_com
     }
 
     ccs_complex_matrix C(N, rows_count);
-    for (int j = 0; j < rows.size(); j++) {
+    for (int j = 0; j < rows_count; j++) {
         C.rows[j] = rows[j];
         C.values[j] = values[j];
     }
 
-    for (int i = 0; i <= N; i++)
+    for (int i = 0; i < N + 1; i++)
         C.col_indexes[i] = col_indexes[i];
 
     return C;
