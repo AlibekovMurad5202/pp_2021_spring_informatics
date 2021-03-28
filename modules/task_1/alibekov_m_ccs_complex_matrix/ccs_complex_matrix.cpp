@@ -1,6 +1,5 @@
 // Copyright 2021 Alibekov Murad
 #include <random>
-#include <cstdlib>  // srand
 #include "../../../modules/task_1/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
 ccs_complex_matrix generate_regular_ccs(int N, int count_in_col) {

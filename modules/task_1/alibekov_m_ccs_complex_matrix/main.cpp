@@ -7,11 +7,11 @@
 #include "./ccs_complex_matrix.h"
 
 TEST(SPARSE_MATRICES, THROWS_WHEN_N_IS_NEGATIVE) {
-    ASSERT_ANY_THROW(generate_regular_ccs(10728, -100, 3));
+    ASSERT_ANY_THROW(generate_regular_ccs(-100, 3));
 }
 
 TEST(SPARSE_MATRICES, THROWS_WHEN_N_IS_ZERO) {
-    ASSERT_ANY_THROW(generate_regular_ccs(10728, 0, 3));
+    ASSERT_ANY_THROW(generate_regular_ccs(0, 3));
 }
 
 TEST(SPARSE_MATRICES, TEST_EQUAL_MATRICES) {
@@ -76,14 +76,14 @@ TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
 
 TEST(SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_GENERATING_BIG_SPARSE_MATRIX) {
     clock_t start_time = clock();
-    EXPECT_NO_THROW(generate_regular_ccs(86538, 100000, 150));
+    EXPECT_NO_THROW(generate_regular_ccs(100000, 150));
     clock_t finish_time = clock();
 
     printf("\tTime  = %f\n", static_cast<double>(finish_time - start_time) / CLOCKS_PER_SEC);
 }
 
 TEST(SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_TRANSPOSITION_BIG_SPARSE_MATRIX) {
-    ccs_complex_matrix big_sparse_matrix = generate_regular_ccs(86538, 100000, 150);
+    ccs_complex_matrix big_sparse_matrix = generate_regular_ccs(100000, 150);
 
     clock_t start_time = clock();
     EXPECT_NO_THROW(transpose(big_sparse_matrix));
@@ -180,10 +180,10 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRICES) {
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
 
     clock_t start_time = clock();
@@ -282,10 +282,10 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRICES) {
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
 
     clock_t start_time = clock();
