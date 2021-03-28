@@ -58,10 +58,10 @@ ccs_complex_matrix transpose(const ccs_complex_matrix &A) {
     }
 
     for (int i = 0; i < A.N; i++) {
-        int row = i;  // Row 'row' in AT - Column 'i' in А
+        int row = i;  // Row 'row' in AT - Column 'i' in ?
         for (int j = A.col_indexes[i]; j < A.col_indexes[i+1]; j++) {
             std::complex<double> AT_V = A.values[j];
-            int AT_col_index = A.rows[j];  // Column in АT - Row in A
+            int AT_col_index = A.rows[j];  // Column in ?T - Row in A
             int AT_j_index = AT.col_indexes[AT_col_index + 1];
             AT.values[AT_j_index] = AT_V;
             AT.rows[AT_j_index] = row;
