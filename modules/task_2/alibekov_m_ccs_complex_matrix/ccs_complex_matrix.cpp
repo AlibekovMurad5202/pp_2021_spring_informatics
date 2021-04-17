@@ -178,10 +178,9 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
         throw -1;
 
     int N = A.N;
-
     int rows_count = 0;
-    std::vector<std::vector<int> > rows;
-    std::vector<std::vector<std::complex<double> > > values;
+    std::vector<std::vector<int> > rows(N);
+    std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
     
 
@@ -202,7 +201,6 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
 
             if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
                 rows[i].push_back(j);
-                // rows_count[i]++;
                 values[i].push_back(sum);
                 col_indexes[i]++;
             }
@@ -219,20 +217,20 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     col_indexes[N] = count_NZ;
     
     
-    ccs_complex_matrix C(N, rows_count);
+    ccs_complex_matrix C(N, count_NZ);
     int count = 0;
     for (int i = 0; i < N; i++) {
         int size = rows[i].size();
         for (int j = 0; j < size; j++) {
             C.rows[count] = rows[i][j];
             C.values[count] = values[i][j];
+            count++;
         }
-        count += size;
     }
 
     for (int i = 0; i < N + 1; i++)
         C.col_indexes[i] = col_indexes[i];
-
+    
     return C;
 }
 

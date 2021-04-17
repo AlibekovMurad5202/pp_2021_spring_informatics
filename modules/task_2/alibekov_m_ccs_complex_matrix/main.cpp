@@ -29,23 +29,25 @@ TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
     std::cout << std::endl;
 }
 
+
 /////////////////////////////////////////////
 ///    NAIVE_MULTIPLY_SPARSE_MATRICES    ////
 /////////////////////////////////////////////
 
-TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 1000, 20);
+TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 1000, 20);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
 
-    clock_t start_time = clock();
-    EXPECT_NO_THROW(naive_multiplicate_omp(big_sparse_matrix_1, big_sparse_matrix_2));
-    clock_t finish_time = clock();
+    double start_time = omp_get_wtime();
+    EXPECT_NO_THROW(naive_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
+    double finish_time = omp_get_wtime();
 
-    printf("\tTime  = %f\n", static_cast<double>(finish_time - start_time) / CLOCKS_PER_SEC);
+    printf("\tTime  = %f\n", finish_time - start_time);
 }
+
 
 /////////////////////////////////////////////////
 ///    NAIVE_MULTIPLY_SPARSE_MATRICES_OMP    ////
@@ -135,18 +137,19 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_OMP, MULTIPLY_SPARSE_MATRICES) {
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 1000, 20);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 1000, 20);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
 
-    clock_t start_time = clock();
+    double start_time = omp_get_wtime();
     EXPECT_NO_THROW(naive_multiplicate_omp(big_sparse_matrix_1, big_sparse_matrix_2));
-    clock_t finish_time = clock();
+    double finish_time = omp_get_wtime();
 
-    printf("\tTime  = %f\n", static_cast<double>(finish_time - start_time) / CLOCKS_PER_SEC);
+    printf("\tTime  = %f\n", finish_time - start_time);
 }
+
 
 /////////////////////////////////////////////
 ///    OPTIM_MULTIPLY_SPARSE_MATRICES    ////
@@ -237,18 +240,19 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, MULTIPLY_SPARSE_MATRICES) {
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 1000, 20);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 5000, 100);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 1000, 20);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 5000, 100);
     std::cout << "\tSecond matrix is generated!\n";
 
-    clock_t start_time = clock();
+    double start_time = omp_get_wtime();
     EXPECT_NO_THROW(optim_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
-    clock_t finish_time = clock();
+    double finish_time = omp_get_wtime();
 
-    printf("\tTime  = %f\n", static_cast<double>(finish_time - start_time) / CLOCKS_PER_SEC);
+    printf("\tTime  = %f\n", finish_time - start_time);
 }
+
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

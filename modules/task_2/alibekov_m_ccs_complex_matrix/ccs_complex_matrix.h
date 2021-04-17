@@ -7,6 +7,7 @@
 #include <iostream>
 #include <utility>
 #include <random>
+
 #include "omp.h"
 
 const double ZERO_IN_CCS = 0.00001;
@@ -48,4 +49,4 @@ void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex =
 
 bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
-#endif  // MODULES_TASK_1_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+#endif  // MODULES_TASK_2_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
