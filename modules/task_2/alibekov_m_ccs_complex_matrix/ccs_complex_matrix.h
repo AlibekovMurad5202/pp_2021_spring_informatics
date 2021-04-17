@@ -43,6 +43,7 @@ ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_com
 ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
 ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
+ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
 void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);

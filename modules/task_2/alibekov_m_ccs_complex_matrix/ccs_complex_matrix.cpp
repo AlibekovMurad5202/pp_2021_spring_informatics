@@ -178,15 +178,12 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
         throw -1;
 
     int N = A.N;
-    int rows_count = 0;
+    
     std::vector<std::vector<int> > rows(N);
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
     
-
-#pragma omp parallel
-{
-    #pragma omp for
+    #pragma omp parallel for
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             std::complex<double> sum = {0, 0};
@@ -206,7 +203,6 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
             }
         }
     }
-}
 
     int count_NZ = 0;
     for (int i = 0; i < N; i++) {
@@ -231,6 +227,69 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     for (int i = 0; i < N + 1; i++)
         C.col_indexes[i] = col_indexes[i];
     
+    return C;
+}
+
+ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
+    ccs_complex_matrix AT = transpose(A);
+    if (A.N != B.N)
+        throw -1;
+
+    int N = A.N;
+
+    std::vector<std::vector<int> > rows(N);
+    std::vector<std::vector<std::complex<double> > > values(N);
+    std::vector<int> col_indexes(N + 1);
+
+    #pragma omp parallel for
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            std::complex<double> sum = {0, 0};
+
+            // like merging 2 sorted arrays
+            int a_idx = AT.col_indexes[j];
+            int b_idx = B.col_indexes[i];
+            while ((a_idx < AT.col_indexes[j + 1]) && (b_idx < B.col_indexes[i + 1])) {
+                if (AT.rows[a_idx] < B.rows[b_idx]) {
+                    a_idx++;
+                } else {
+                    if (AT.rows[a_idx] > B.rows[b_idx])
+                        b_idx++;
+                    else
+                        sum += AT.values[a_idx++] * B.values[b_idx++];
+                }
+            }
+
+            if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
+                rows[i].push_back(j);
+                values[i].push_back(sum);
+                col_indexes[i]++;
+            }
+        }
+    }
+
+    int count_NZ = 0;
+    for (int i = 0; i < N; i++) {
+        int tmp = col_indexes[i];
+        col_indexes[i] = count_NZ;
+        count_NZ += tmp;        
+    }
+    col_indexes[N] = count_NZ;
+
+    ccs_complex_matrix C(N, count_NZ);
+    int count = 0;
+    for (int i = 0; i < N; i++) {
+        int size = rows[i].size();
+        for (int j = 0; j < size; j++) {
+            C.rows[count] = rows[i][j];
+            C.values[count] = values[i][j];
+            count++;
+        }
+    }
+
+    for (int i = 0; i < N + 1; i++)
+        C.col_indexes[i] = col_indexes[i];
+
     return C;
 }
 
