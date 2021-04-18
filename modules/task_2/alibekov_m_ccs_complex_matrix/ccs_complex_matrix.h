@@ -2,7 +2,7 @@
 #ifndef MODULES_TASK_2_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
 #define MODULES_TASK_2_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
 
-#include "omp.h"
+#include <omp.h>
 
 #include <vector>
 #include <complex>
