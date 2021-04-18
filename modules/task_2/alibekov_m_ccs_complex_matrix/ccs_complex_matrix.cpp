@@ -178,11 +178,11 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
         throw -1;
 
     int N = A.N;
-    
+
     std::vector<std::vector<int> > rows(N);
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
-    
+
     #pragma omp parallel for
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
@@ -208,11 +208,10 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     for (int i = 0; i < N; i++) {
         int tmp = col_indexes[i];
         col_indexes[i] = count_NZ;
-        count_NZ += tmp;        
+        count_NZ += tmp;
     }
     col_indexes[N] = count_NZ;
-    
-    
+
     ccs_complex_matrix C(N, count_NZ);
     int count = 0;
     for (int i = 0; i < N; i++) {
@@ -226,7 +225,7 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
 
     for (int i = 0; i < N + 1; i++)
         C.col_indexes[i] = col_indexes[i];
-    
+
     return C;
 }
 
@@ -272,7 +271,7 @@ ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     for (int i = 0; i < N; i++) {
         int tmp = col_indexes[i];
         col_indexes[i] = count_NZ;
-        count_NZ += tmp;        
+        count_NZ += tmp;
     }
     col_indexes[N] = count_NZ;
 
