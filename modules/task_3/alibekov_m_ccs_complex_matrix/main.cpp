@@ -309,7 +309,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     EXPECT_NO_THROW(optim_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2));
     finish_time = tbb::tick_count::now();
 
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds);
+    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
 }
 
 
