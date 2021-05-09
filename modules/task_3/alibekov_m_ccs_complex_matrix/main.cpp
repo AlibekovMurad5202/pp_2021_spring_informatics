@@ -10,7 +10,7 @@ int SEED_1 = 86538;
 int SEED_2 = 2395;
 int N = 500;
 int COUNT_IN_COL = 10;
-int TBB_THREADS_COUNT = 1;
+int TBB_THREADS_COUNT = 4;
 int TBB_GRANSIZE = 1;
 
 
@@ -49,11 +49,12 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    double start_time = omp_get_wtime();
+    tbb::tick_count start_time, finish_time;
+    start_time = tbb::tick_count::now();
     EXPECT_NO_THROW(naive_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
-    double finish_time = omp_get_wtime();
+    finish_time = tbb::tick_count::now();
 
-    printf("\tTime  = %f\n", finish_time - start_time);
+    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
 }
 
 
@@ -68,11 +69,12 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    double start_time = omp_get_wtime();
+    tbb::tick_count start_time, finish_time;
+    start_time = tbb::tick_count::now();
     EXPECT_NO_THROW(optim_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
-    double finish_time = omp_get_wtime();
+    finish_time = tbb::tick_count::now();
 
-    printf("\tTime  = %f\n", finish_time - start_time);
+    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
 }
 
 
@@ -87,11 +89,12 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    double start_time = omp_get_wtime();
+    tbb::tick_count start_time, finish_time;
+    start_time = tbb::tick_count::now();
     EXPECT_NO_THROW(naive_multiplicate_omp(big_sparse_matrix_1, big_sparse_matrix_2));
-    double finish_time = omp_get_wtime();
+    finish_time = tbb::tick_count::now();
 
-    printf("\tTime  = %f\n", finish_time - start_time);
+    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
 }
 
 
@@ -106,11 +109,12 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    double start_time = omp_get_wtime();
+    tbb::tick_count start_time, finish_time;
+    start_time = tbb::tick_count::now();
     EXPECT_NO_THROW(optim_multiplicate_omp(big_sparse_matrix_1, big_sparse_matrix_2));
-    double finish_time = omp_get_wtime();
+    finish_time = tbb::tick_count::now();
 
-    printf("\tTime  = %f\n", finish_time - start_time);
+    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
 }
 
 
