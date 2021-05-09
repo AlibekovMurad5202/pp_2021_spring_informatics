@@ -292,7 +292,10 @@ ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     return C;
 }
 
-ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A, const ccs_complex_matrix &B, int _threads_count, int _gransize) {
+ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
+        const ccs_complex_matrix &B,
+        int _threads_count,
+        int _gransize) {
     ccs_complex_matrix AT = transpose(A);
 
     if (A.N != B.N)
@@ -334,8 +337,7 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A, const ccs
                     }
                 }
             }
-        }
-    );
+        });
     init.terminate();
 
     int count_NZ = 0;
@@ -363,7 +365,10 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A, const ccs
     return C;
 }
 
-ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A, const ccs_complex_matrix &B, int _threads_count, int _gransize) {
+ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
+        const ccs_complex_matrix &B,
+        int _threads_count,
+        int _gransize) {
     ccs_complex_matrix AT = transpose(A);
 
     if (A.N != B.N)
@@ -411,8 +416,7 @@ ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A, const ccs
                     }
                 }
             }
-        }
-    );
+        });
     init.terminate();
 
     int count_NZ = 0;
