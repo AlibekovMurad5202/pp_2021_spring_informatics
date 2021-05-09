@@ -292,8 +292,9 @@ ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     return C;
 }
 
-ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A, const ccs_complex_matrix &B, int _threads_count = 1, int _gransize = 1) {
+ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A, const ccs_complex_matrix &B, int _threads_count, int _gransize) {
     ccs_complex_matrix AT = transpose(A);
+
     if (A.N != B.N)
         throw -1;
     if (_threads_count < 0)
@@ -362,8 +363,9 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A, const ccs
     return C;
 }
 
-ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A, const ccs_complex_matrix &B, int _threads_count = 1, int _gransize = 1) {
+ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A, const ccs_complex_matrix &B, int _threads_count, int _gransize) {
     ccs_complex_matrix AT = transpose(A);
+
     if (A.N != B.N)
         throw -1;
     if (_threads_count < 0)
