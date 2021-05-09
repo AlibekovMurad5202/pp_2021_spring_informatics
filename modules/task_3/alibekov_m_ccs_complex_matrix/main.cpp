@@ -6,6 +6,14 @@
 #include <ctime>
 #include "./ccs_complex_matrix.h"
 
+int SEED_1 = 86538;
+int SEED_2 = 2395;
+int N = 500;
+int COUNT_IN_COL = 10;
+int TBB_THREADS_COUNT = 1;
+int TBB_GRANSIZE = 1;
+
+
 TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
     ccs_complex_matrix sparse_matrix(4, 6);
     sparse_matrix.values = { 9, 3, 8, 15, 7, 16 };
@@ -35,10 +43,10 @@ TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
 /////////////////////////////////////////////
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
     double start_time = omp_get_wtime();
@@ -54,10 +62,10 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
 /////////////////////////////////////////////
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
     double start_time = omp_get_wtime();
@@ -73,10 +81,10 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
 /////////////////////////////////////////////////
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
     double start_time = omp_get_wtime();
@@ -92,10 +100,10 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
 /////////////////////////////////////////////////
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
     double start_time = omp_get_wtime();
@@ -126,7 +134,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_NUMBERS) {
     result.rows = { 0 };
     result.col_indexes = { 0, 1 };
 
-    EXPECT_EQ(naive_multiplicate_tbb(number_1, number_2), result);
+    EXPECT_EQ(naive_multiplicate_tbb(number_1, number_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_COMPLEX_NUMBERS) {
@@ -145,7 +153,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_COMPLEX_NUMBERS) {
     result.rows = { 0 };
     result.col_indexes = { 0, 1 };
 
-    EXPECT_EQ(naive_multiplicate_tbb(number_1, number_2), result);
+    EXPECT_EQ(naive_multiplicate_tbb(number_1, number_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_DIFFERENT_N) {
@@ -159,7 +167,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_DIFFERENT_N) 
     sparse_matrix_2.rows = { 2, 2, 1 };
     sparse_matrix_2.col_indexes = { 0, 1, 2, 3 };
 
-    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2));
+    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE));
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRIX_AND_ZERO_MATRIX) {
@@ -172,7 +180,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRIX_AND_ZERO_MATRIX)
 
     ccs_complex_matrix result(4, 0);
 
-    EXPECT_EQ(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2), result);
+    EXPECT_EQ(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRICES) {
@@ -190,19 +198,55 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRICES) {
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-    EXPECT_EQ(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2), result);
+    EXPECT_EQ(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
+}
+
+TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_GRANSIZE_LESS_THAN_ZERO) {
+    ccs_complex_matrix sparse_matrix_1(3, 4);
+    sparse_matrix_1.values = { {-1, 1}, {0, 3}, 3, 0.7 };
+    sparse_matrix_1.rows = { 2, 0, 2, 1 };
+    sparse_matrix_1.col_indexes = { 0, 1, 3, 4 };
+
+    ccs_complex_matrix sparse_matrix_2(3, 3);
+    sparse_matrix_2.values = { {0, -3}, {0, 1}, 4 };
+    sparse_matrix_2.rows = { 1, 0, 2 };
+    sparse_matrix_2.col_indexes = { 0, 0, 1, 3};
+
+    ccs_complex_matrix result(3, 4);
+    result.values = { 9, {0, -9}, 2.8, {-1, -1} };
+    result.rows = { 0, 2, 1, 2 };
+    result.col_indexes = { 0, 0, 2, 4};
+    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, -1), result);
+}
+
+TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_THREADS_COUNT_LESS_THAN_ZERO) {
+    ccs_complex_matrix sparse_matrix_1(3, 4);
+    sparse_matrix_1.values = { {-1, 1}, {0, 3}, 3, 0.7 };
+    sparse_matrix_1.rows = { 2, 0, 2, 1 };
+    sparse_matrix_1.col_indexes = { 0, 1, 3, 4 };
+
+    ccs_complex_matrix sparse_matrix_2(3, 3);
+    sparse_matrix_2.values = { {0, -3}, {0, 1}, 4 };
+    sparse_matrix_2.rows = { 1, 0, 2 };
+    sparse_matrix_2.col_indexes = { 0, 0, 1, 3};
+
+    ccs_complex_matrix result(3, 4);
+    result.values = { 9, {0, -9}, 2.8, {-1, -1} };
+    result.rows = { 0, 2, 1, 2 };
+    result.col_indexes = { 0, 0, 2, 4};
+    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, -1, TBB_GRANSIZE), result);
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
     tbb::tick_count start_time, finish_time;
     start_time = tbb::tick_count::now();
-    EXPECT_NO_THROW(naive_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2));
+    EXPECT_NO_THROW(naive_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE));
     finish_time = tbb::tick_count::now();
 
     printf("\tTime  = %f\n", (finish_time - start_time).seconds());
@@ -229,7 +273,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_NUMBERS) {
     result.rows = { 0 };
     result.col_indexes = { 0, 1 };
 
-    EXPECT_EQ(optim_multiplicate_tbb(number_1, number_2), result);
+    EXPECT_EQ(optim_multiplicate_tbb(number_1, number_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_COMPLEX_NUMBERS) {
@@ -248,7 +292,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_COMPLEX_NUMBERS) {
     result.rows = { 0 };
     result.col_indexes = { 0, 1 };
 
-    EXPECT_EQ(optim_multiplicate_tbb(number_1, number_2), result);
+    EXPECT_EQ(optim_multiplicate_tbb(number_1, number_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_DIFFERENT_N) {
@@ -262,7 +306,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_DIFFERENT_N) 
     sparse_matrix_2.rows = { 2, 2, 1 };
     sparse_matrix_2.col_indexes = { 0, 1, 2, 3 };
 
-    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2));
+    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE));
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRIX_AND_ZERO_MATRIX) {
@@ -275,7 +319,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRIX_AND_ZERO_MATRIX)
 
     ccs_complex_matrix result(4, 0);
 
-    EXPECT_EQ(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2), result);
+    EXPECT_EQ(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRICES) {
@@ -294,19 +338,55 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, MULTIPLY_SPARSE_MATRICES) {
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
 
-    EXPECT_EQ(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2), result);
+    EXPECT_EQ(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE), result);
+}
+
+TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_GRANSIZE_LESS_THAN_ZERO) {
+    ccs_complex_matrix sparse_matrix_1(3, 4);
+    sparse_matrix_1.values = { {-1, 1}, {0, 3}, 3, 0.7 };
+    sparse_matrix_1.rows = { 2, 0, 2, 1 };
+    sparse_matrix_1.col_indexes = { 0, 1, 3, 4 };
+
+    ccs_complex_matrix sparse_matrix_2(3, 3);
+    sparse_matrix_2.values = { {0, -3}, {0, 1}, 4 };
+    sparse_matrix_2.rows = { 1, 0, 2 };
+    sparse_matrix_2.col_indexes = { 0, 0, 1, 3};
+
+    ccs_complex_matrix result(3, 4);
+    result.values = { 9, {0, -9}, 2.8, {-1, -1} };
+    result.rows = { 0, 2, 1, 2 };
+    result.col_indexes = { 0, 0, 2, 4};
+    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, -1), result);
+}
+
+TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_THREADS_COUNT_LESS_THAN_ZERO) {
+    ccs_complex_matrix sparse_matrix_1(3, 4);
+    sparse_matrix_1.values = { {-1, 1}, {0, 3}, 3, 0.7 };
+    sparse_matrix_1.rows = { 2, 0, 2, 1 };
+    sparse_matrix_1.col_indexes = { 0, 1, 3, 4 };
+
+    ccs_complex_matrix sparse_matrix_2(3, 3);
+    sparse_matrix_2.values = { {0, -3}, {0, 1}, 4 };
+    sparse_matrix_2.rows = { 1, 0, 2 };
+    sparse_matrix_2.col_indexes = { 0, 0, 1, 3};
+
+    ccs_complex_matrix result(3, 4);
+    result.values = { 9, {0, -9}, 2.8, {-1, -1} };
+    result.rows = { 0, 2, 1, 2 };
+    result.col_indexes = { 0, 0, 2, 4};
+    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, -1, TBB_GRANSIZE), result);
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(86538, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
 
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(2395, 500, 10);
+    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
     tbb::tick_count start_time, finish_time;
     start_time = tbb::tick_count::now();
-    EXPECT_NO_THROW(optim_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2));
+    EXPECT_NO_THROW(optim_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE));
     finish_time = tbb::tick_count::now();
 
     printf("\tTime  = %f\n", (finish_time - start_time).seconds());
