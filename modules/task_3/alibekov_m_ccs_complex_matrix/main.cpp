@@ -216,7 +216,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_GRANSIZE_LESS
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, -1), result);
+    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, -1));
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_THREADS_COUNT_LESS_THAN_ZERO) {
@@ -234,7 +234,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_THREADS_COUNT
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, -1, TBB_GRANSIZE), result);
+    ASSERT_ANY_THROW(naive_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, -1, TBB_GRANSIZE));
 }
 
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
@@ -356,7 +356,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_GRANSIZE_LESS
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, -1), result);
+    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, TBB_THREADS_COUNT, -1));
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_THREADS_COUNT_LESS_THAN_ZERO) {
@@ -374,7 +374,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, THROWS_WHEN_MULTIPLY_WITH_THREADS_COUNT
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, -1, TBB_GRANSIZE), result);
+    ASSERT_ANY_THROW(optim_multiplicate_tbb(sparse_matrix_1, sparse_matrix_2, -1, TBB_GRANSIZE));
 }
 
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
