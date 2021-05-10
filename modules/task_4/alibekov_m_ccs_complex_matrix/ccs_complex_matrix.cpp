@@ -459,7 +459,7 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
     std::vector<std::thread> threads_pool;
 
     auto thread_partial_calculation =
-        [&](int begin,int end) {
+        [&](int begin, int end) {
             for (int i = begin; i < end; i++) {
                 for (int j = 0; j < N; j++) {
                     std::complex<double> sum = {0, 0};
@@ -484,7 +484,8 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
     int delta = N / threads_count;
     for (int thread_id = 0; thread_id < threads_count - 1; thread_id++) {
         int left_border_value = thread_id * delta;
-        threads_pool.emplace_back(std::thread(thread_partial_calculation, left_border_value, left_border_value + delta));
+        threads_pool.emplace_back(std::thread(
+            thread_partial_calculation, left_border_value, left_border_value + delta));
     }
     threads_pool.emplace_back(std::thread(thread_partial_calculation, threads_count * delta, N));
 
@@ -532,7 +533,7 @@ ccs_complex_matrix optim_multiplicate_std(const ccs_complex_matrix &A, const ccs
     std::vector<std::thread> threads_pool;
 
     auto thread_partial_calculation =
-        [&](int begin,int end) {
+        [&](int begin, int end) {
             for (int i = begin; i < end; i++) {
                 for (int j = 0; j < N; j++) {
                     std::complex<double> sum = {0, 0};
@@ -563,7 +564,8 @@ ccs_complex_matrix optim_multiplicate_std(const ccs_complex_matrix &A, const ccs
     int delta = N / threads_count;
     for (int thread_id = 0; thread_id < threads_count - 1; thread_id++) {
         int left_border_value = thread_id * delta;
-        threads_pool.emplace_back(std::thread(thread_partial_calculation, left_border_value, left_border_value + delta));
+        threads_pool.emplace_back(std::thread(
+            thread_partial_calculation, left_border_value, left_border_value + delta));
     }
     threads_pool.emplace_back(std::thread(thread_partial_calculation, threads_count * delta, N));
 
