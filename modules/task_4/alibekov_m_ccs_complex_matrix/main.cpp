@@ -53,9 +53,9 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
     EXPECT_NO_THROW(naive_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
     auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n",
+    printf("\tTime  = %f\n", static_cast<float>(
         std::chrono::duration_cast<std::chrono::milliseconds>
-            (finish_time - start_time).count());
+            (finish_time - start_time).count()));
 }
 
 
@@ -74,9 +74,9 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
     EXPECT_NO_THROW(optim_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
     auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n",
+    printf("\tTime  = %f\n", static_cast<float>(
         std::chrono::duration_cast<std::chrono::milliseconds>
-            (finish_time - start_time).count());
+            (finish_time - start_time).count()));
 }
 
 
@@ -258,9 +258,9 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     EXPECT_NO_THROW(naive_multiplicate_std(big_sparse_matrix_1, big_sparse_matrix_2));
     auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n",
+    printf("\tTime  = %f\n", static_cast<float>(
         std::chrono::duration_cast<std::chrono::milliseconds>
-            (finish_time - start_time).count());
+            (finish_time - start_time).count()));
 }
 
 
@@ -363,9 +363,9 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     EXPECT_NO_THROW(optim_multiplicate_std(big_sparse_matrix_1, big_sparse_matrix_2));
     auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n",
+    printf("\tTime  = %f\n", static_cast<float>(
         std::chrono::duration_cast<std::chrono::milliseconds>
-            (finish_time - start_time).count());
+            (finish_time - start_time).count()));
 }
 
 
