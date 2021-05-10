@@ -49,12 +49,13 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    tbb::tick_count start_time, finish_time;
-    start_time = tbb::tick_count::now();
+    auto start_time = std::chrono::high_resolution_clock::now();
     EXPECT_NO_THROW(naive_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
-    finish_time = tbb::tick_count::now();
+    auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
+    printf("\tTime  = %f\n",
+        std::chrono::duration_cast<std::chrono::milliseconds>
+            (finish_time - start_time).count());
 }
 
 
@@ -69,12 +70,13 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_B
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    tbb::tick_count start_time, finish_time;
-    start_time = tbb::tick_count::now();
+    auto start_time = std::chrono::high_resolution_clock::now();
     EXPECT_NO_THROW(optim_multiplicate(big_sparse_matrix_1, big_sparse_matrix_2));
-    finish_time = tbb::tick_count::now();
+    auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
+    printf("\tTime  = %f\n",
+        std::chrono::duration_cast<std::chrono::milliseconds>
+            (finish_time - start_time).count());
 }
 
 
@@ -252,12 +254,13 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    tbb::tick_count start_time, finish_time;
-    start_time = tbb::tick_count::now();
+    auto start_time = std::chrono::high_resolution_clock::now();
     EXPECT_NO_THROW(naive_multiplicate_std(big_sparse_matrix_1, big_sparse_matrix_2));
-    finish_time = tbb::tick_count::now();
+    auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
+    printf("\tTime  = %f\n",
+        std::chrono::duration_cast<std::chrono::milliseconds>
+            (finish_time - start_time).count());
 }
 
 
@@ -356,12 +359,13 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
-    tbb::tick_count start_time, finish_time;
-    start_time = tbb::tick_count::now();
+    auto start_time = std::chrono::high_resolution_clock::now();
     EXPECT_NO_THROW(optim_multiplicate_std(big_sparse_matrix_1, big_sparse_matrix_2));
-    finish_time = tbb::tick_count::now();
+    auto finish_time = std::chrono::high_resolution_clock::now();
 
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
+    printf("\tTime  = %f\n",
+        std::chrono::duration_cast<std::chrono::milliseconds>
+            (finish_time - start_time).count());
 }
 
 
