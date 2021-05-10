@@ -1,6 +1,6 @@
 // Copyright 2021 Alibekov Murad
-#ifndef MODULES_TASK_3_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
-#define MODULES_TASK_3_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+#ifndef MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+#define MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
 
 #include <omp.h>
 
@@ -69,4 +69,4 @@ void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex =
 
 bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
-#endif  // MODULES_TASK_3_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+#endif  // MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
