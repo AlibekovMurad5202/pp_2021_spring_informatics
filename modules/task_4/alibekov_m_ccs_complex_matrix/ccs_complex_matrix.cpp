@@ -1,5 +1,5 @@
 // Copyright 2021 Alibekov Murad
-#include "../../../modules/task_3/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
+#include "../../../modules/task_4/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
 ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
     if ((N <= 0) || (count_in_col <= 0))
