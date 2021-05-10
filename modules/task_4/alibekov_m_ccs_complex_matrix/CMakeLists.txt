@@ -16,6 +16,12 @@ if ( USE_STD )
     target_link_libraries(${ProjectId} gtest gtest_main)
     target_link_libraries (${ProjectId} Threads::Threads)
 
+    if( WIN32 )
+        target_link_libraries(${ProjectId} ${TBB_IMPORTED_TARGETS})
+    else( WIN32 )
+        target_link_libraries(${ProjectId} ${TBB_LIBRARIES})
+    endif( WIN32 )
+
     enable_testing()
     add_test(NAME ${ProjectId} COMMAND ${ProjectId})
 
