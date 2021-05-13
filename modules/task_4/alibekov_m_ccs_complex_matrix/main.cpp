@@ -247,8 +247,8 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_SPARSE_MATRICES) {
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
 
-    PrintCCSMatrix(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2));
-    PrintCCSMatrix(result);
+    PrintDensificationOfCCSMatrix(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2));
+    PrintDensificationOfCCSMatrix(result);
 
     EXPECT_EQ(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2), result);
 }
