@@ -482,10 +482,12 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
         };
 
     int delta = N / threads_count;
-    for (int thread_id = 0; thread_id < threads_count - 1; thread_id++) {
-        int left_border_value = thread_id * delta;
-        threads_pool.emplace_back(std::thread(
-            thread_partial_calculation, left_border_value, left_border_value + delta));
+    if (delta > 0) {
+        for (int thread_id = 0; thread_id < threads_count - 1; thread_id++) {
+            int left_border_value = thread_id * delta;
+            threads_pool.emplace_back(std::thread(
+                thread_partial_calculation, left_border_value, left_border_value + delta));
+        }
     }
     threads_pool.emplace_back(std::thread(thread_partial_calculation, threads_count * delta, N));
 
