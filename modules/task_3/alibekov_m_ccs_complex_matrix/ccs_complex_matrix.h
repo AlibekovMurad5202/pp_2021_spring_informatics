@@ -4,7 +4,6 @@
 
 #include <omp.h>
 
-#include <tbb/task_scheduler_init.h>
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
 #include <tbb/tick_count.h>
@@ -52,11 +51,9 @@ ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs
 
 ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
         const ccs_complex_matrix &B,
-        int _threads_count = 1,
         int _gransize = 1);
 ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
         const ccs_complex_matrix &B,
-        int _threads_count = 1,
         int _gransize = 1);
 
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);

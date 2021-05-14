@@ -294,26 +294,21 @@ ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs
 
 ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
         const ccs_complex_matrix &B,
-        int _threads_count,
         int _gransize) {
     ccs_complex_matrix AT = transpose(A);
 
     if (A.N != B.N)
         throw -1;
-    if (_threads_count < 0)
-        throw -1;
     if (_gransize < 0)
         throw -1;
 
     int N = A.N;
-    int threads_count = _threads_count;
     int gransize = _gransize;
 
     std::vector<std::vector<int> > rows(N);
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
 
-    tbb::task_scheduler_init init(threads_count);
     tbb::parallel_for(tbb::blocked_range<int>(0, N, gransize),
         [&](const tbb::blocked_range<int> &r) {
             int begin = r.begin();
@@ -338,7 +333,6 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
                 }
             }
         });
-    init.terminate();
 
     int count_NZ = 0;
     for (int i = 0; i < N; i++) {
@@ -367,26 +361,21 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
 
 ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
         const ccs_complex_matrix &B,
-        int _threads_count,
         int _gransize) {
     ccs_complex_matrix AT = transpose(A);
 
     if (A.N != B.N)
         throw -1;
-    if (_threads_count < 0)
-        throw -1;
     if (_gransize < 0)
         throw -1;
 
     int N = A.N;
-    int threads_count = _threads_count;
     int gransize = _gransize;
 
     std::vector<std::vector<int> > rows(N);
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
 
-    tbb::task_scheduler_init init(threads_count);
     tbb::parallel_for(tbb::blocked_range<int>(0, N, gransize),
         [&](const tbb::blocked_range<int> &r) {
             int begin = r.begin();
@@ -417,7 +406,6 @@ ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
                 }
             }
         });
-    init.terminate();
 
     int count_NZ = 0;
     for (int i = 0; i < N; i++) {
