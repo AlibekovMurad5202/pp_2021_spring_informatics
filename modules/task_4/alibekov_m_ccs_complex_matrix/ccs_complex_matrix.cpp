@@ -455,7 +455,7 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
 
-    int threads_count = static_cast<int>(std::thread::hardware_concurrency());
+    int threads_count = static_cast<int>(2);//std::thread::hardware_concurrency());
     std::vector<std::thread> threads_pool;
 
     auto thread_partial_calculation =
@@ -491,7 +491,7 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
                 thread_partial_calculation, left_border_value, left_border_value + delta));
         }
     }
-    threads_pool.emplace_back(std::thread(thread_partial_calculation, threads_count * delta, N));
+    threads_pool.emplace_back(std::thread(thread_partial_calculation, (threads_count - 1) * delta, N));
 
     for (std::thread &thread : threads_pool) {
         thread.join();
