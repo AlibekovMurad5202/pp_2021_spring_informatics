@@ -477,6 +477,8 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
                         values[i].push_back(sum);
                         col_indexes[i]++;
                     }
+                    
+                    std::cout << "{" << i << "|" << j << "} " << sum << std::endl;
                 }
             }
         };
