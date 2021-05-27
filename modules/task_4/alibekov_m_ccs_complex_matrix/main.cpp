@@ -252,11 +252,11 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_SPARSE_MATRICES) {
 
     EXPECT_EQ(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2), result);
 }
-/*
+
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
     ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
-
+/*
     ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
     std::cout << "\tSecond matrix is generated!\n";
 
@@ -267,8 +267,9 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
     printf("\tTime  = %f\n", static_cast<float>(
         std::chrono::duration_cast<std::chrono::milliseconds>
             (finish_time - start_time).count() / 1000.));
+            */
 }
-*/
+
 
 /////////////////////////////////////////////////
 ///    OPTIM_MULTIPLY_SPARSE_MATRICES_STD    ////
