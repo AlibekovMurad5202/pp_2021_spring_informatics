@@ -165,7 +165,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
 /////////////////////////////////////////////////
 ///    NAIVE_MULTIPLY_SPARSE_MATRICES_STD    ////
 /////////////////////////////////////////////////
-/*
+
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_NUMBERS) {
     ccs_complex_matrix number_1(1, 1);
     number_1.values = { 6 };
@@ -252,7 +252,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_SPARSE_MATRICES) {
 
     EXPECT_EQ(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2), result);
 }
-
+/*
 TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
     ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
@@ -273,7 +273,7 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
 /////////////////////////////////////////////////
 ///    OPTIM_MULTIPLY_SPARSE_MATRICES_STD    ////
 /////////////////////////////////////////////////
-/*
+
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_NUMBERS) {
     ccs_complex_matrix number_1(1, 1);
     number_1.values = { 6 };
@@ -357,7 +357,7 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_SPARSE_MATRICES) {
 
     EXPECT_EQ(optim_multiplicate_std(sparse_matrix_1, sparse_matrix_2), result);
 }
-
+/*
 TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_STD, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
     ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
     std::cout << "\tFirst matrix is generated!\n";
