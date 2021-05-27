@@ -571,7 +571,7 @@ ccs_complex_matrix optim_multiplicate_std(const ccs_complex_matrix &A, const ccs
         threads_pool.emplace_back(std::thread(
             thread_partial_calculation, left_border_value, left_border_value + delta));
     }
-    threads_pool.emplace_back(std::thread(thread_partial_calculation, threads_count * delta, N));
+    threads_pool.emplace_back(std::thread(thread_partial_calculation, (threads_count - 1) * delta, N));
 
     for (std::thread &thread : threads_pool) {
         thread.join();
