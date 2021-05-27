@@ -3,12 +3,7 @@
 #define MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
 
 #include <omp.h>
-/*
-#include <tbb/task_scheduler_init.h>
-#include <tbb/parallel_for.h>
-#include <tbb/blocked_range.h>
-#include <tbb/tick_count.h>
-*/
+
 #include <vector>
 #include <complex>
 #include <iostream>
@@ -51,16 +46,7 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
 
 ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
-/*
-ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
-        const ccs_complex_matrix &B,
-        int _threads_count = 1,
-        int _gransize = 1);
-ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
-        const ccs_complex_matrix &B,
-        int _threads_count = 1,
-        int _gransize = 1);
-*/
+
 ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 ccs_complex_matrix optim_multiplicate_std(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 

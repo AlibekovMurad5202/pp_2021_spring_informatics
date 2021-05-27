@@ -8,10 +8,8 @@
 
 int SEED_1 = 86538;
 int SEED_2 = 2395;
-int N = 500;
-int COUNT_IN_COL = 10;
-// int TBB_THREADS_COUNT = 4;
-// int TBB_GRANSIZE = 1;
+int N = 4000;
+int COUNT_IN_COL = 80;
 
 
 TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
@@ -121,46 +119,6 @@ TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_OMP, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATI
             (finish_time - start_time).count() / 1000.));
 }
 
-/*
-/////////////////////////////////////////////////
-///    NAIVE_MULTIPLY_SPARSE_MATRICES_TBB    ////
-/////////////////////////////////////////////////
-
-TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
-    std::cout << "\tFirst matrix is generated!\n";
-
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
-    std::cout << "\tSecond matrix is generated!\n";
-
-    tbb::tick_count start_time, finish_time;
-    start_time = tbb::tick_count::now();
-    EXPECT_NO_THROW(naive_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE));
-    finish_time = tbb::tick_count::now();
-
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
-}
-
-
-/////////////////////////////////////////////////
-///    OPTIM_MULTIPLY_SPARSE_MATRICES_TBB    ////
-/////////////////////////////////////////////////
-
-TEST(OPTIM_MULTIPLY_SPARSE_MATRICES_TBB, PERFORMANCE_MEASUREMENT_OF_MULTIPLICATION_BIG_SPARSE_MATRICES) {
-    ccs_complex_matrix big_sparse_matrix_1 = generate_regular_ccs(SEED_1, N, COUNT_IN_COL);
-    std::cout << "\tFirst matrix is generated!\n";
-
-    ccs_complex_matrix big_sparse_matrix_2 = generate_regular_ccs(SEED_2, N, COUNT_IN_COL);
-    std::cout << "\tSecond matrix is generated!\n";
-
-    tbb::tick_count start_time, finish_time;
-    start_time = tbb::tick_count::now();
-    EXPECT_NO_THROW(optim_multiplicate_tbb(big_sparse_matrix_1, big_sparse_matrix_2, TBB_THREADS_COUNT, TBB_GRANSIZE));
-    finish_time = tbb::tick_count::now();
-
-    printf("\tTime  = %f\n", (finish_time - start_time).seconds());
-}
-*/
 
 /////////////////////////////////////////////////
 ///    NAIVE_MULTIPLY_SPARSE_MATRICES_STD    ////
@@ -246,9 +204,6 @@ TEST(NAIVE_MULTIPLY_SPARSE_MATRICES_STD, MULTIPLY_SPARSE_MATRICES) {
     result.values = { 9, {0, -9}, 2.8, {-1, -1} };
     result.rows = { 0, 2, 1, 2 };
     result.col_indexes = { 0, 0, 2, 4};
-
-    PrintDensificationOfCCSMatrix(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2));
-    PrintDensificationOfCCSMatrix(result);
 
     EXPECT_EQ(naive_multiplicate_std(sparse_matrix_1, sparse_matrix_2), result);
 }
