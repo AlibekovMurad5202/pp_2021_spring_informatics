@@ -8,8 +8,8 @@
 
 int SEED_1 = 86538;
 int SEED_2 = 2395;
-int N = 4000;
-int COUNT_IN_COL = 80;
+int N = 500;
+int COUNT_IN_COL = 10;
 
 
 TEST(SPARSE_MATRICES, PRINT_SPARSE_MATRIX) {
