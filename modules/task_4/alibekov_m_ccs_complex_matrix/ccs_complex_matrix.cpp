@@ -455,7 +455,7 @@ ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
 
-    int threads_count = static_cast<int>(2);//std::thread::hardware_concurrency());
+    int threads_count = static_cast<int>(std::thread::hardware_concurrency());
     std::vector<std::thread> threads_pool;
 
     auto thread_partial_calculation =
