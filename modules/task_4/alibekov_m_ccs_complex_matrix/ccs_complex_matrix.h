@@ -1,18 +1,14 @@
 // Copyright 2021 Alibekov Murad
-#ifndef MODULES_TASK_3_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
-#define MODULES_TASK_3_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
-
-#include <omp.h>
-
-#include <tbb/parallel_for.h>
-#include <tbb/blocked_range.h>
-#include <tbb/tick_count.h>
+#ifndef MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+#define MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
 
 #include <vector>
 #include <complex>
 #include <iostream>
 #include <utility>
 #include <random>
+
+#include "../../../3rdparty/unapproved/unapproved.h"
 
 const double ZERO_IN_CCS = 0.00001;
 
@@ -46,19 +42,12 @@ ccs_complex_matrix transpose(const ccs_complex_matrix &A);
 ccs_complex_matrix naive_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
-ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
-ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
-
-ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
-        const ccs_complex_matrix &B,
-        int _gransize = 1);
-ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
-        const ccs_complex_matrix &B,
-        int _gransize = 1);
+ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
+ccs_complex_matrix optim_multiplicate_std(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
 void PrintCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
 void PrintDensificationOfCCSMatrix(const ccs_complex_matrix &A, bool isComplex = true);
 
 bool operator==(const ccs_complex_matrix &A, const ccs_complex_matrix &B);
 
-#endif  // MODULES_TASK_3_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_
+#endif  // MODULES_TASK_4_ALIBEKOV_M_CCS_COMPLEX_MATRIX_CCS_COMPLEX_MATRIX_H_

@@ -1,5 +1,5 @@
 // Copyright 2021 Alibekov Murad
-#include "../../../modules/task_3/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
+#include "../../../modules/task_4/alibekov_m_ccs_complex_matrix/ccs_complex_matrix.h"
 
 ccs_complex_matrix generate_regular_ccs(int seed, int N, int count_in_col) {
     if ((N <= 0) || (count_in_col <= 0))
@@ -172,7 +172,7 @@ ccs_complex_matrix optim_multiplicate(const ccs_complex_matrix &A, const ccs_com
     return C;
 }
 
-ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
+ccs_complex_matrix naive_multiplicate_std(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
     ccs_complex_matrix AT = transpose(A);
     if (A.N != B.N)
         throw -1;
@@ -183,136 +183,11 @@ ccs_complex_matrix naive_multiplicate_omp(const ccs_complex_matrix &A, const ccs
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
 
-    #pragma omp parallel for
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            std::complex<double> sum = {0, 0};
+    int threads_count = static_cast<int>(std::thread::hardware_concurrency());
+    std::vector<std::thread> threads_pool;
 
-            // dot_product
-            for (int k = AT.col_indexes[j]; k < AT.col_indexes[j + 1]; k++)
-                for (int l = B.col_indexes[i]; l < B.col_indexes[i + 1]; l++)
-                    if (AT.rows[k] == B.rows[l]) {
-                        sum += AT.values[k] * B.values[l];
-                        break;
-                    }
-
-            if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
-                rows[i].push_back(j);
-                values[i].push_back(sum);
-                col_indexes[i]++;
-            }
-        }
-    }
-
-    int count_NZ = 0;
-    for (int i = 0; i < N; i++) {
-        int tmp = col_indexes[i];
-        col_indexes[i] = count_NZ;
-        count_NZ += tmp;
-    }
-    col_indexes[N] = count_NZ;
-
-    ccs_complex_matrix C(N, count_NZ);
-    int count = 0;
-    for (int i = 0; i < N; i++) {
-        int size = rows[i].size();
-        for (int j = 0; j < size; j++) {
-            C.rows[count] = rows[i][j];
-            C.values[count] = values[i][j];
-            count++;
-        }
-    }
-
-    for (int i = 0; i < N + 1; i++)
-        C.col_indexes[i] = col_indexes[i];
-
-    return C;
-}
-
-ccs_complex_matrix optim_multiplicate_omp(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
-    ccs_complex_matrix AT = transpose(A);
-    if (A.N != B.N)
-        throw -1;
-
-    int N = A.N;
-
-    std::vector<std::vector<int> > rows(N);
-    std::vector<std::vector<std::complex<double> > > values(N);
-    std::vector<int> col_indexes(N + 1);
-
-    #pragma omp parallel for
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            std::complex<double> sum = {0, 0};
-
-            // like merging 2 sorted arrays
-            int a_idx = AT.col_indexes[j];
-            int b_idx = B.col_indexes[i];
-            while ((a_idx < AT.col_indexes[j + 1]) && (b_idx < B.col_indexes[i + 1])) {
-                if (AT.rows[a_idx] < B.rows[b_idx]) {
-                    a_idx++;
-                } else {
-                    if (AT.rows[a_idx] > B.rows[b_idx])
-                        b_idx++;
-                    else
-                        sum += AT.values[a_idx++] * B.values[b_idx++];
-                }
-            }
-
-            if ((fabs(sum.real()) > ZERO_IN_CCS) || (fabs(sum.imag()) > ZERO_IN_CCS)) {
-                rows[i].push_back(j);
-                values[i].push_back(sum);
-                col_indexes[i]++;
-            }
-        }
-    }
-
-    int count_NZ = 0;
-    for (int i = 0; i < N; i++) {
-        int tmp = col_indexes[i];
-        col_indexes[i] = count_NZ;
-        count_NZ += tmp;
-    }
-    col_indexes[N] = count_NZ;
-
-    ccs_complex_matrix C(N, count_NZ);
-    int count = 0;
-    for (int i = 0; i < N; i++) {
-        int size = rows[i].size();
-        for (int j = 0; j < size; j++) {
-            C.rows[count] = rows[i][j];
-            C.values[count] = values[i][j];
-            count++;
-        }
-    }
-
-    for (int i = 0; i < N + 1; i++)
-        C.col_indexes[i] = col_indexes[i];
-
-    return C;
-}
-
-ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
-        const ccs_complex_matrix &B,
-        int _gransize) {
-    ccs_complex_matrix AT = transpose(A);
-
-    if (A.N != B.N)
-        throw -1;
-    if (_gransize < 0)
-        throw -1;
-
-    int N = A.N;
-    int gransize = _gransize;
-
-    std::vector<std::vector<int> > rows(N);
-    std::vector<std::vector<std::complex<double> > > values(N);
-    std::vector<int> col_indexes(N + 1);
-
-    tbb::parallel_for(tbb::blocked_range<int>(0, N, gransize),
-        [&](const tbb::blocked_range<int> &r) {
-            int begin = r.begin();
-            int end = r.end();
+    auto thread_partial_calculation =
+        [&](int begin, int end) {
             for (int i = begin; i < end; i++) {
                 for (int j = 0; j < N; j++) {
                     std::complex<double> sum = {0, 0};
@@ -332,7 +207,22 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
                     }
                 }
             }
-        });
+        };
+
+    int delta = N / threads_count;
+    if (delta > 0) {
+        for (int thread_id = 0; thread_id < threads_count - 1; thread_id++) {
+            int left_border_value = thread_id * delta;
+            threads_pool.emplace_back(std::thread(
+                thread_partial_calculation, left_border_value, left_border_value + delta));
+        }
+    }
+    threads_pool.emplace_back(std::thread(
+        thread_partial_calculation, (threads_count - 1) * delta, N));
+
+    for (std::thread &thread : threads_pool) {
+        thread.join();
+    }
 
     int count_NZ = 0;
     for (int i = 0; i < N; i++) {
@@ -359,27 +249,22 @@ ccs_complex_matrix naive_multiplicate_tbb(const ccs_complex_matrix &A,
     return C;
 }
 
-ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
-        const ccs_complex_matrix &B,
-        int _gransize) {
+ccs_complex_matrix optim_multiplicate_std(const ccs_complex_matrix &A, const ccs_complex_matrix &B) {
     ccs_complex_matrix AT = transpose(A);
-
     if (A.N != B.N)
-        throw -1;
-    if (_gransize < 0)
         throw -1;
 
     int N = A.N;
-    int gransize = _gransize;
 
     std::vector<std::vector<int> > rows(N);
     std::vector<std::vector<std::complex<double> > > values(N);
     std::vector<int> col_indexes(N + 1);
 
-    tbb::parallel_for(tbb::blocked_range<int>(0, N, gransize),
-        [&](const tbb::blocked_range<int> &r) {
-            int begin = r.begin();
-            int end = r.end();
+    int threads_count = static_cast<int>(std::thread::hardware_concurrency());
+    std::vector<std::thread> threads_pool;
+
+    auto thread_partial_calculation =
+        [&](int begin, int end) {
             for (int i = begin; i < end; i++) {
                 for (int j = 0; j < N; j++) {
                     std::complex<double> sum = {0, 0};
@@ -405,7 +290,20 @@ ccs_complex_matrix optim_multiplicate_tbb(const ccs_complex_matrix &A,
                     }
                 }
             }
-        });
+        };
+
+    int delta = N / threads_count;
+    for (int thread_id = 0; thread_id < threads_count - 1; thread_id++) {
+        int left_border_value = thread_id * delta;
+        threads_pool.emplace_back(std::thread(
+            thread_partial_calculation, left_border_value, left_border_value + delta));
+    }
+    threads_pool.emplace_back(std::thread(
+        thread_partial_calculation, (threads_count - 1) * delta, N));
+
+    for (std::thread &thread : threads_pool) {
+        thread.join();
+    }
 
     int count_NZ = 0;
     for (int i = 0; i < N; i++) {
